@@ -8,7 +8,7 @@ using Basic;
 
 
 // This line creates a new instance, and wraps the instance in a using statement so it's automatically disposed once we've exited the block.
-using (Game game = new Game(800, 600, "LearnOpenTK"))
+using (OpenGlWindow game = new OpenGlWindow(800, 600, "LearnOpenTK"))
 {
     game.Run();
 }

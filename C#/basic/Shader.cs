@@ -3,7 +3,10 @@ using OpenTK.Graphics.OpenGL4;
 
 public class Shader
 {
-    int Handle;
+    public int VertexShader { get; }
+    public int FragmentShader { get; }
+    private bool disposedValue = false;
+    public int Handle;
 
     public Shader(string vertexPath, string fragmentPath)
     {
@@ -69,8 +72,6 @@ public class Shader
         GL.UseProgram(Handle);
     }
 
-    private bool disposedValue = false;
-
     protected virtual void Dispose(bool disposing)
     {
         if (!disposedValue)
@@ -89,13 +90,9 @@ public class Shader
         }
     }
 
-
     public void Dispose()
     {
         Dispose(true);
         GC.SuppressFinalize(this);
     }
-
-    public int VertexShader { get; }
-    public int FragmentShader { get; }
 }
