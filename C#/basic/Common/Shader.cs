@@ -1,5 +1,6 @@
-
 using OpenTK.Graphics.OpenGL4;
+
+namespace basic.Common;
 
 public class Shader
 {
@@ -95,7 +96,6 @@ public class Shader
         Dispose(true);
         GC.SuppressFinalize(this);
     }
-
 
 
     /// <summary>

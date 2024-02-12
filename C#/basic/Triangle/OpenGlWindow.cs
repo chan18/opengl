@@ -4,34 +4,25 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 
-namespace basic.Rectangle;
+namespace basic.Triangle;
 
-public class OpenGlWindowDrawRectangle : GameWindow
+public class OpenGlWindowDrawTraiangle : GameWindow
 {
-    private readonly float[] _rectangleVertices = [
-         0.5f,  0.5f, 0.0f, // top right
-         0.5f, -0.5f, 0.0f, // bottom right
-        -0.5f, -0.5f, 0.0f, // bottom left
-        -0.5f,  0.5f, 0.0f // top left
-    ];
-
-    // EBO
-    // note that we start from zero.
-    private readonly uint[] _rectangleIndices =
-    {
-        0, 1, 3, // first triangle
-        1, 2, 3 // second triangle.
+    // We define them in normalized device coordinates - NDC
+    private readonly float[] _triangleVertices = {
+        -0.5f, -0.5f, 0.0f, //Bottom-left vertex
+        0.5f, -0.5f, 0.0f, //Bottom-right vertex
+        0.0f,  0.5f, 0.0f  //Top vertex
     };
 
     private int _vertexBufferObject;
     private int _vertexArrayObject;
-    private int _elementBufferObject;
     private Shader _shader;
 
 
     [Obsolete]
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public OpenGlWindowDrawRectangle(int width, int height, string title) : base(GameWindowSettings.Default,
+    public OpenGlWindowDrawTraiangle(int width, int height, string title) : base(GameWindowSettings.Default,
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
                                                         new NativeWindowSettings() { Size = (width, height), Title = title })
     {
@@ -45,27 +36,21 @@ public class OpenGlWindowDrawRectangle : GameWindow
         // color of the window
         GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-        //Code goes here
+
         _vertexBufferObject = GL.GenBuffer();
         GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-        GL.BufferData(BufferTarget.ArrayBuffer, _rectangleVertices.Length * sizeof(float), _rectangleVertices,
-            BufferUsageHint.StaticDraw);
+
+        GL.BufferData(BufferTarget.ArrayBuffer, _triangleVertices.Length * sizeof(float), _triangleVertices, BufferUsageHint.StaticDraw);
 
         _vertexArrayObject = GL.GenVertexArray();
         GL.BindVertexArray(_vertexArrayObject);
-
 
         // shader.GetAttribLocation("aPosition"); //  to skip the layout(location=0)
         GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
         GL.EnableVertexAttribArray(0);
 
-        _elementBufferObject = GL.GenBuffer();
-        GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
-        GL.BufferData(BufferTarget.ElementArrayBuffer, _rectangleIndices.Length * sizeof(uint), _rectangleIndices,
-            BufferUsageHint.StaticDraw);
 
-
-        _shader = new Shader("Rectangle/shaders/shader.vert", "Rectangle/shaders/shader.frag");
+        _shader = new Shader("Triangle/shaders/shader.vert", "Triangle/shaders/shader.frag");
         _shader.Use();
     }
 
@@ -77,9 +62,7 @@ public class OpenGlWindowDrawRectangle : GameWindow
         GL.Clear(ClearBufferMask.ColorBufferBit);
         
         //Code goes here.
-        //GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
-
-        GL.DrawElements(PrimitiveType.Triangles, _rectangleIndices.Length, DrawElementsType.UnsignedInt, 0);
+        GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
 
         // double buffer -  OpenGL context
         SwapBuffers();
@@ -117,8 +100,6 @@ public class OpenGlWindowDrawRectangle : GameWindow
         // Delete all the resources.
         GL.DeleteBuffer(_vertexBufferObject);
         GL.DeleteVertexArray(_vertexArrayObject);
-
-        GL.DeleteBuffer(_elementBufferObject);
 
         GL.DeleteProgram(_shader.Handle);
 
