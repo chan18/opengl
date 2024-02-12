@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Basic;
-
 // main function
 
 // Console.WriteLine("Hello, World!");

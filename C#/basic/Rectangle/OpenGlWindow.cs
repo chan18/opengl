@@ -71,7 +71,7 @@ public class OpenGlWindow : GameWindow
             BufferUsageHint.StaticDraw);
 
 
-        _shader = new Shader("shaders/shader.vert", "shaders/shader.frag");
+        _shader = new Shader("Rectangle/shaders/shader.vert", "Rectangle/shaders/shader.frag");
         _shader.Use();
     }
 
