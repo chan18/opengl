@@ -8,14 +8,32 @@ namespace Basic;
 public class OpenGlWindow : GameWindow
 {
     // We define them in normalized device coordinates - NDC
-    private readonly float[] vertices = {
+    private readonly float[] _triangleVertices = {
         -0.5f, -0.5f, 0.0f, //Bottom-left vertex
         0.5f, -0.5f, 0.0f, //Bottom-right vertex
         0.0f,  0.5f, 0.0f  //Top vertex
     };
-    private int VertexBufferObject;
-    private int VertexArrayObject;
-    private Shader shader;
+
+    private readonly float[] _rectangleVertices = [
+         0.5f,  0.5f, 0.0f, // top right
+         0.5f, -0.5f, 0.0f, // bottom right
+        -0.5f, -0.5f, 0.0f, // bottom left
+        -0.5f,  0.5f, 0.0f // top left
+    ];
+
+    // EBO
+    // note that we start from zero.
+    private readonly uint[] _rectangleIndices =
+    {
+        0, 1, 3, // first triangle
+        1, 2, 3 // second triangle.
+    };
+
+    private int _vertexBufferObject;
+    private int _vertexArrayObject;
+    private int _elementBufferObject;
+    private Shader _shader;
+
 
     [Obsolete]
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
@@ -34,19 +52,27 @@ public class OpenGlWindow : GameWindow
         GL.ClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
         //Code goes here
-        VertexBufferObject = GL.GenBuffer();
-        GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBufferObject);
-        GL.BufferData(BufferTarget.ArrayBuffer, vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+        _vertexBufferObject = GL.GenBuffer();
+        GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
+        GL.BufferData(BufferTarget.ArrayBuffer, _rectangleVertices.Length * sizeof(float), _rectangleVertices,
+            BufferUsageHint.StaticDraw);
 
-        VertexArrayObject = GL.GenVertexArray();
-        GL.BindVertexArray(VertexArrayObject);
+        _vertexArrayObject = GL.GenVertexArray();
+        GL.BindVertexArray(_vertexArrayObject);
 
+
+        // shader.GetAttribLocation("aPosition"); //  to skip the layout(location=0)
         GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
         GL.EnableVertexAttribArray(0);
 
+        _elementBufferObject = GL.GenBuffer();
+        GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
+        GL.BufferData(BufferTarget.ElementArrayBuffer, _rectangleIndices.Length * sizeof(uint), _rectangleIndices,
+            BufferUsageHint.StaticDraw);
 
-        shader = new Shader("shaders/shader.vert", "shaders/shader.frag");
-        shader.Use();
+
+        _shader = new Shader("shaders/shader.vert", "shaders/shader.frag");
+        _shader.Use();
     }
 
     protected override void OnRenderFrame(FrameEventArgs e)
@@ -55,15 +81,15 @@ public class OpenGlWindow : GameWindow
 
         // clear screen.
         GL.Clear(ClearBufferMask.ColorBufferBit);
-
+        
         //Code goes here.
-        GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+        //GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
+
+        GL.DrawElements(PrimitiveType.Triangles, _rectangleIndices.Length, DrawElementsType.UnsignedInt, 0);
 
         // double buffer -  OpenGL context
         SwapBuffers();
     }
-
-
 
     // It's really simple to detect key presses! 
     protected override void OnUpdateFrame(FrameEventArgs e)
@@ -71,7 +97,7 @@ public class OpenGlWindow : GameWindow
         base.OnUpdateFrame(e);
 
         //Get the state of the keyboard this frame
-        // 'KeyboardState' is a property of GameWindow
+        // KeyboardState' is a property of GameWindow
         if (KeyboardState.IsKeyDown(Keys.Escape))
         {
             Close();
@@ -95,11 +121,13 @@ public class OpenGlWindow : GameWindow
         GL.UseProgram(0);
 
         // Delete all the resources.
-        GL.DeleteBuffer(VertexBufferObject);
-        GL.DeleteVertexArray(VertexArrayObject);
+        GL.DeleteBuffer(_vertexBufferObject);
+        GL.DeleteVertexArray(_vertexArrayObject);
 
-        GL.DeleteProgram(shader.Handle);
+        GL.DeleteBuffer(_elementBufferObject);
 
-        shader.Dispose();
-    }
+        GL.DeleteProgram(_shader.Handle);
+
+        _shader.Dispose();
+    }        
 }

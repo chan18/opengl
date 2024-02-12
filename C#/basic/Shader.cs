@@ -95,4 +95,16 @@ public class Shader
         Dispose(true);
         GC.SuppressFinalize(this);
     }
+
+
+
+    /// <summary>
+    /// Retrive attribute position at runtime.
+    /// </summary>
+    /// <param name="attribName"></param>
+    /// <returns></returns>
+    public int GetAttribLocation(string attribName)
+    {
+        return GL.GetAttribLocation(Handle, attribName);
+    }
 }
