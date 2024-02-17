@@ -18,7 +18,6 @@ public class Shader
         // create the shader
         VertexShader = GL.CreateShader(ShaderType.VertexShader);
         GL.ShaderSource(VertexShader, VertexShaderSource);
-
         FragmentShader = GL.CreateShader(ShaderType.FragmentShader);
         GL.ShaderSource(FragmentShader, FragmentShaderSource);
 
@@ -59,7 +58,6 @@ public class Shader
             string infoLog = GL.GetProgramInfoLog(Handle);
             Console.WriteLine(infoLog);
         }
-
 
         // once the shader program is compiled and linked we can detach and delete shaders.
         GL.DetachShader(Handle, VertexShader);

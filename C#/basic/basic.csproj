@@ -20,6 +20,14 @@
 		<Content Include="Triangle\shaders\*">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
+		<Content Include="shaderGLSL\shaders\*">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="shaderglsl\shaders\uniformShader.frag" />
+	  <None Remove="shaderglsl\shaders\uniformShader.vert" />
 	</ItemGroup>
 
 </Project>
