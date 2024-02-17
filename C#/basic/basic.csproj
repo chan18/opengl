@@ -10,24 +10,26 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="StbImageSharp" Version="2.27.13" />
 		<PackageReference Include="OpenTK" Version="4.8.2" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Content Include="Rectangle\shaders\*">
+		<Content Include="rectangle\shaders\*">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-		<Content Include="Triangle\shaders\*">
+		<Content Include="triangle\shaders\*">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 		<Content Include="shaderGLSL\shaders\*">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Remove="shaderglsl\shaders\uniformShader.frag" />
-	  <None Remove="shaderglsl\shaders\uniformShader.vert" />
+		<Content Include="textures\shaders\*">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="textures\resources\*">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 </Project>

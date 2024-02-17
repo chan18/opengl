@@ -1,4 +1,4 @@
-using basic.Common;
+using basic.common;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;

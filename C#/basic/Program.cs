@@ -1,6 +1,7 @@
 ﻿// This line creates a new instance, and wraps the instance in a using statement so it's automatically disposed once we've exited the block.
 //using basic.Rectangle;
 using basic.shaderGLSL;
+using basic.textures;
 
 //using (OpenGlWindowDrawTraiangle game = new OpenGlWindowDrawTraiangle(800, 600, "LearnOpenTK"))
 //{
@@ -22,7 +23,12 @@ using basic.shaderGLSL;
 //    game.Run();
 //}
 
-using (uniformShaderWindow game = new uniformShaderWindow(800, 600, "LearnOpenTK"))
+//using (uniformShaderWindow game = new uniformShaderWindow(800, 600, "LearnOpenTK"))
+//{
+//    game.Run();
+//}
+
+using (TextureWindow game = new TextureWindow(800, 600, "LearnOpenTK"))
 {
     game.Run();
 }

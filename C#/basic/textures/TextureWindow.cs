@@ -5,27 +5,36 @@ using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using System.Diagnostics;
 
-namespace basic.shaderGLSL
+
+namespace basic.textures
 {
-    public class AttributeShaderWindow : GameWindow
+    public class TextureWindow : GameWindow
     {
         private readonly float[] _vertices =
         {
-             // positions        // colors
-             0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
-            -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
-             0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
+            // Position         Texture coordinates
+             0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
+             0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
+            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // top left
         };
 
+        private readonly uint[] _indices =
+        {
+            0, 1, 3,
+            1, 2, 3
+        };
 
+        private int _elementBufferObject;
         private int _vertexBufferObject;
         private int _vertexArrayObject;
-        private Shader _shader;
+        private Shader _shader;        
+        private Texture _texture;
 
 
         [Obsolete]
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public AttributeShaderWindow(int width, int height, string title) : base(GameWindowSettings.Default,
+        public TextureWindow(int width, int height, string title) : base(GameWindowSettings.Default,
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
                                                             new NativeWindowSettings() { Size = (width, height), Title = title })
         {
@@ -47,18 +56,25 @@ namespace basic.shaderGLSL
             _vertexArrayObject = GL.GenVertexArray();
             GL.BindVertexArray(_vertexArrayObject);
 
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 0);            
-            GL.EnableVertexAttribArray(0);
+            _elementBufferObject = GL.GenBuffer();
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Length * sizeof(uint), _indices, BufferUsageHint.StaticDraw);
 
-            GL.VertexAttribPointer(1, 3, VertexAttribPointerType.Float, false, 6 * sizeof(float), 3 * sizeof(float));
-            GL.EnableVertexAttribArray(1);
 
-            GL.GetInteger(GetPName.MaxVertexAttribs, out int maxAttributeCount);
-            Debug.WriteLine($"Maximum number of vertex attributes supported: {maxAttributeCount}");
-
-            _shader = new Shader("shaderGLSL/shaders/attributeShader.vert",
-                                "shaderGLSL/shaders/attributeShader.frag");
+            _shader = new Shader("textures/shaders/shader.vert",
+                                "textures/shaders/shader.frag");
             _shader.Use();
+
+            var vertexLocation = _shader.GetAttribLocation("aPosition");
+            GL.EnableVertexAttribArray(vertexLocation);
+            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, 5 * sizeof(float), 0);
+
+            var texCoordLocation = _shader.GetAttribLocation("aTexCoord");
+            GL.EnableVertexAttribArray(texCoordLocation);
+            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, 5 * sizeof(float), 3 * sizeof(float));
+
+            _texture = Texture.LoadFromFile("textures/resources/container.png");
+            _texture.Use(TextureUnit.Texture0);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -68,9 +84,10 @@ namespace basic.shaderGLSL
             // clear screen.
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
-            // _shader.Use();
-
             GL.BindVertexArray(_vertexArrayObject);
+
+            _texture.Use(TextureUnit.Texture0);
+            _shader.Use();
 
             GL.DrawArrays(PrimitiveType.Triangles, 0, 3);
 

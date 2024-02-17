@@ -1,6 +1,6 @@
 using OpenTK.Graphics.OpenGL4;
 
-namespace basic.Common;
+namespace basic.common;
 
 public class Shader
 {
