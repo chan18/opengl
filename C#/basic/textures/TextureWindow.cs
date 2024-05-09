@@ -34,9 +34,10 @@ namespace basic.textures
 
         [Obsolete]
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public TextureWindow(int width, int height, string title) : base(GameWindowSettings.Default,
+        public TextureWindow(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings)
+            : base(gameWindowSettings, nativeWindowSettings)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-                                                            new NativeWindowSettings() { Size = (width, height), Title = title })
+                                                            
         {
 
         }

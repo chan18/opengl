@@ -2,6 +2,9 @@
 //using basic.Rectangle;
 using basic.shaderGLSL;
 using basic.textures;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
 
 //using (OpenGlWindowDrawTraiangle game = new OpenGlWindowDrawTraiangle(800, 600, "LearnOpenTK"))
 //{
@@ -28,7 +31,16 @@ using basic.textures;
 //    game.Run();
 //}
 
-using (TextureWindow game = new TextureWindow(800, 600, "LearnOpenTK"))
+var nativeWindowSettings = new NativeWindowSettings()
+{
+    ClientSize = new Vector2i(800, 600),
+    Title = "LearnOpenTK - Textures",
+    // This is needed to run on macos
+    Flags = ContextFlags.ForwardCompatible,
+};
+
+using (TextureWindow game = new TextureWindow(GameWindowSettings.Default, nativeWindowSettings))
 {
     game.Run();
 }
+
