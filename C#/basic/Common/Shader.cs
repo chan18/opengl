@@ -8,6 +8,7 @@ public class Shader
     public int FragmentShader { get; }
     private bool disposedValue = false;
     public int Handle;
+     private readonly Dictionary<string, int> _uniformLocations;
 
     public Shader(string vertexPath, string fragmentPath)
     {
@@ -104,5 +105,12 @@ public class Shader
     public int GetAttribLocation(string attribName)
     {
         return GL.GetAttribLocation(Handle, attribName);
+    }
+
+    public void SetInt(string name, int value)
+    {
+        int location = GL.GetUniformLocation(Handle, name);
+
+        GL.Uniform1(location, value);
     }
 }
