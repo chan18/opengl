@@ -8,7 +8,7 @@ public class Shader
     public int FragmentShader { get; }
     private bool disposedValue = false;
     public int Handle;
-     private readonly Dictionary<string, int> _uniformLocations;
+    private readonly Dictionary<string, int> _uniformLocations;
 
     public Shader(string vertexPath, string fragmentPath)
     {
