@@ -1,7 +1,7 @@
 
 # Transformations
 
-### vecors
+### vectors
 
 * vectors are directions nothing more.
 * vectors has direction and magnitude.
@@ -9,7 +9,7 @@
 
 scalar vector operations
 vector negation
-additino and subtraction
+additions and subtraction
 length
 vector-vector multiplication
 dot product
@@ -27,7 +27,7 @@ in practice.
 camera/view space
 look at
 walk around
-movment speed
+movement speed
 look around
 mouse input
 zoom
@@ -47,8 +47,4 @@ mouse input
 
 zoom
 
-# Lighiting
-
-
-
-
+# Lightning
