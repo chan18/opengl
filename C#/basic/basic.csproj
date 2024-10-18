@@ -33,6 +33,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Transformations\resources\wall.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Transformations\resources\wall.jpg">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Update="multipletextures\resources\awesomeface.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
@@ -43,6 +53,18 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="multipletextures\shaders\shader.vert">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Transformations\resources\awesomeface.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Transformations\resources\container.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Transformations\shaders\shader.frag">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Transformations\shaders\shader.vert">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

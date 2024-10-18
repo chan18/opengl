@@ -1,4 +1,6 @@
+using OpenTK.Compute.OpenCL;
 using OpenTK.Graphics.OpenGL4;
+using OpenTK.Mathematics;
 
 namespace basic.common;
 
@@ -112,5 +114,14 @@ public class Shader
         int location = GL.GetUniformLocation(Handle, name);
 
         GL.Uniform1(location, value);
+    }
+
+    public void SetMatrix4(string name, Matrix4 data)
+    {
+        GL.UseProgram(Handle);
+
+        int location = GL.GetUniformLocation(Handle, name);
+
+        GL.UniformMatrix4(location, true, ref data);
     }
 }

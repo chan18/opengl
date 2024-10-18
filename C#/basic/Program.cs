@@ -46,7 +46,12 @@ var nativeWindowSettings = new NativeWindowSettings()
 // }
 
 
-using (MultipleTextureWindow game = new MultipleTextureWindow(GameWindowSettings.Default, nativeWindowSettings))
+//using (MultipleTextureWindow game = new MultipleTextureWindow(GameWindowSettings.Default, nativeWindowSettings))
+//{
+//    game.Run();
+//}
+
+using (Transformation game = new Transformation(GameWindowSettings.Default, nativeWindowSettings))
 {
     game.Run();
 }
